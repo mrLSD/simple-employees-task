@@ -1,0 +1,36 @@
+{{define "main"}}
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+    <title>Employees and Roles</title>
+    <meta charset="UTF-8">
+    <script src="/assets/jquery-3.1.1.min.js"></script>
+<style>
+    .employees {
+        padding: 3;
+        background-color: #00ff00;
+        width: 500px;
+    }
+</style>
+<body>
+    <div id="content">
+
+    </div>
+<script>
+$(document).ready(function(){
+    $.get("/GetEmployeeList", function(data){
+        data.forEach(function(item){
+            $("#content").append("<div class=\"employees\" id=\"box-"+item.Id+"\">"+item.Id+"<h1>"+item.Name+"</h1></div>")
+        });
+    });
+    $("body").on("click", ".employees", function(el){
+        var id = $(this).attr("id").split("box-")[1];
+        $.get("/GetEmployeeRoles?employeeId="+id, function(data){
+            console.log(data);
+        });
+    });
+});
+</script>
+</body>
+</html>
+{{end}}
